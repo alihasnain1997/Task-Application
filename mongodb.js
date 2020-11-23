@@ -17,7 +17,7 @@ if(err)
 
     const db=client.db(dbName);
 
-
+//INSERT
 //     db.collection('users').insertMany(
 //     [
 //     {
@@ -40,6 +40,7 @@ if(err)
 
 //      });
 
+//READ
 // db.collection('users').find({}).toArray((error,result)=>{
 
 
@@ -49,7 +50,29 @@ if(err)
 //     return console.log(result);
 // })
 
+//READ + SORTING
+// db.collection('users').find({}).sort({age:-1}).toArray((error,result)=>{
 
-db.collection('users').find({}).sort({age:-1}).limit(1);
+
+//     if(error){
+//                 return console.log("unable to insert data "+ error);
+//             }
+//             return console.log(result);
+
+// });
+
+//UPDATE With PROMISES
+db.collection('users').updateOne({
+    _id: new ObjectId('5fb77c59e1ad042900ba46a8')
+},{
+    $inc:{
+        age:1
+    }
+}).then((result) => {
+    console.log(result);
+    
+}).catch((err) => {
+    console.log(err);
+});
 
 });
