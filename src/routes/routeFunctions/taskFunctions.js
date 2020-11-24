@@ -1,38 +1,42 @@
 const Task = require('../../models/task');
 
-const saveTask = (req, res) => {
+const saveTask = async (req, res) => {
 
-    const newTask = new Task(req.body);
-    newTask.save().then((u) => {
-        res.status(201).json(u)
+    try {
+        const newTask = new Task(req.body);
+        await newTask.save();
+        res.status(201).json(newTask)
+    } catch (e) {
+        res.status(404).json(e.message)
+    }
 
-    }).catch((error) => {
-        res.status(400).json(error.message)
-    })
-
-}
-
-const getTasks = (req, res) => {
-    Task.find({}).then((u) => {
-        res.status(200).json(u);
-
-    }).catch((error) => {
-
-        res.status(400).json(error.message)
-
-    });
 
 }
-const getTask = (req, res) => {
+
+const getTasks = async (req, res) => {
+    try {
+        const tasks = await Task.find({});
+        res.status(201).json(tasks);
+    }
+    catch (e) {
+        res.status(404).json(e.message)
+    }
+
+
+}
+const getTask = async (req, res) => {
     const _id = req.params.id
-    Task.findById(_id).then((u) => {
-        if (!u) {
-            return res.sendStatus(404)
+    try {
+        const task = await Task.findById(_id);
+        if (!task) {
+            throw new Error(`can't find the related task`);
         }
-        res.status(200).json(u);
-    }).catch((error) => {
-        res.status(400).json(error.message)
-    })
+        res.status(201).json(task)
+    }
+    catch (e) {
+        res.status(404).json(e.message)
+    }
+
 }
 module.exports = {
     saveTask: saveTask,

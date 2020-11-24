@@ -13,14 +13,14 @@ userRouter.get('/', (req, res) => {
 
 //get user by id
 userRouter.get('/:id', (req, res) => {
-    UserFunctions.getUser(req,res);
+    UserFunctions.getUser(req, res);
 
 });
 
 
 //update user by id
-userRouter.put('/:id', (req, res) => {
-    res.sendStatus(200).json({ message: 'selected user updated' })
+userRouter.patch('/:id', (req, res) => {
+    UserFunctions.updateUser(req, res);
 })
 
 //add new user
@@ -30,7 +30,7 @@ userRouter.post('/', (req, res) => {
 
 //delete user
 userRouter.delete('/:id', (req, res) => {
-    res.sendStatus(200).json({ message: 'selected user deleted' })
+    UserFunctions.deleteUser(req,res)
 })
 
 module.exports = userRouter;

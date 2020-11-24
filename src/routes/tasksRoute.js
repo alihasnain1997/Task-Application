@@ -9,12 +9,12 @@ let msg = { message: 'All users' }
 //get all users
 taskRouter.get('/', (req, res) => {
 
-    taskFunctions.getTasks(req,res);
+    taskFunctions.getTasks(req, res);
 })
 
 //get user by id
 taskRouter.get('/:id', (req, res) => {
-    taskFunctions.getTask(req,res);
+    taskFunctions.getTask(req, res);
 });
 
 
