@@ -5,21 +5,34 @@ const userRouter = express.Router();
 
 const UserFunctions = require('./routeFunctions/userFunctions')
 
-let msg = { message: 'All users' }
 //get all users
 userRouter.get('/', (req, res) => {
     UserFunctions.getUsers(req, res);
+})
+
+//get user data(self)
+userRouter.get('/me', (req, res) => {
+    UserFunctions.getSelfData(req, res)
+})
+
+//logout user
+userRouter.post('/logout', (req, res) => {
+    UserFunctions.logoutUser(req, res)
+})
+
+//logout all user sessions
+userRouter.post('/logoutAll', (req, res) => {
+    UserFunctions.logoutAllUsers(req, res)
 })
 
 //get user by id
 userRouter.get('/:id', (req, res) => {
     UserFunctions.getUser(req, res);
 
-});
-
+})
 
 //update user by id
-userRouter.patch('/:id', (req, res) => {
+userRouter.patch('/', (req, res) => {
     UserFunctions.updateUser(req, res);
 })
 
@@ -29,8 +42,9 @@ userRouter.post('/', (req, res) => {
 })
 
 //delete user
-userRouter.delete('/:id', (req, res) => {
-    UserFunctions.deleteUser(req,res)
+userRouter.delete('/me', (req, res) => {
+    UserFunctions.deleteUser(req, res)
 })
+
 
 module.exports = userRouter;

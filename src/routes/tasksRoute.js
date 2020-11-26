@@ -5,32 +5,32 @@ const taskRouter = express.Router();
 
 const taskFunctions = require('./routeFunctions/taskFunctions')
 
-let msg = { message: 'All users' }
-//get all users
+let msg = { message: 'All task' }
+//get all task
 taskRouter.get('/', (req, res) => {
 
     taskFunctions.getTasks(req, res);
 })
 
-//get user by id
+//get task by id
 taskRouter.get('/:id', (req, res) => {
     taskFunctions.getTask(req, res);
 });
 
 
-//update user by id
-taskRouter.put('/:id', (req, res) => {
-    res.sendStatus(200).json({ message: 'selected user updated' })
+//update task by id
+taskRouter.patch('/:id', (req, res) => {
+    taskFunctions.updateTask(req,res);
 })
 
-//add new user
+//add new task
 taskRouter.post('/', (req, res) => {
     taskFunctions.saveTask(req, res);
 })
 
-//delete user
+//delete task
 taskRouter.delete('/:id', (req, res) => {
-    res.sendStatus(200).json({ message: 'selected user deleted' })
+   taskFunctions.deleteTask(req,res)
 })
 
 module.exports = taskRouter;

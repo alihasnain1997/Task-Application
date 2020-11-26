@@ -10,7 +10,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/task-manager-api',{
 
 //TASKS model
 
-const Task=mongoose.model('tasks',{
+const Task=mongoose.model('Task',{
     description:{
         type:String,
         required:true,
@@ -19,6 +19,11 @@ const Task=mongoose.model('tasks',{
     completed:{
         type:Boolean,
         default:false
+    },
+    owner:{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
     }
 })
 
