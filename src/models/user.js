@@ -1,14 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose= require('../db/mongoose')
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Task = require('./task');
 
-mongoose.connect('mongodb://127.0.0.1:27017/task-manager-api', {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true
-})
+
 
 const userSchema = new mongoose.Schema({
 
