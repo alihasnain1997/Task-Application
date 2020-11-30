@@ -18,9 +18,35 @@ const saveTask = async (req, res) => {
 }
 
 const getTasks = async (req, res) => {
+    const match = {};
+    const sort = {};
+    if (req.query.completed) {
+        match.completed = req.query.completed === 'true'
+    }
+    if (req.query.sortBy) {
+        const parts = req.query.sortBy.split(':')
+        sort[parts[0]] = parts[1] === 'desc' ? -1 : 1;
+
+    }
     try {
         //const tasks = await Task.find({owner:req.user._id});
-        await req.user.populate('tasks').execPopulate()
+        await req.user.populate({
+            //to filter
+            path: 'tasks',
+            match,
+            //to paginate
+            options: {
+                limit: parseInt(req.query.limit),
+                skip: parseInt(req.query.skip),
+                //sort
+                // sort:{
+                //     //field name 1 for asc -1 for desc
+                //     //createdAt: -1
+                //     completed: 1
+                // }
+                sort,
+            }
+        }).execPopulate()
         res.status(201).json(req.user.tasks);
     }
     catch (e) {
