@@ -1,5 +1,7 @@
 const express = require('express');
 const User = require('../models/user');
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
 
 const userRouter = express.Router();
 
@@ -46,5 +48,10 @@ userRouter.delete('/me', (req, res) => {
     UserFunctions.deleteUser(req, res)
 })
 
+//uploading avatar
+userRouter.post('/me/avatar',upload.single('avatar'),(req,res)=>{
+    res.status(200).send('upload successful')
+
+})
 
 module.exports = userRouter;
