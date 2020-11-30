@@ -1,7 +1,26 @@
 const express = require('express');
 const User = require('../models/user');
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+//used to support file upload
+const multer = require('multer')
+const upload = multer(
+    {
+        dest: 'uploads/',
+        //limits
+        limits: {
+            //filesize in bytes
+            fileSize: 1000000
+        },
+        //filefilter
+        fileFilter(req, file, cb) {
+            //if (!file.originalname.endsWith('.pdf')) USING REGEX INSTEAD OF THIS
+            if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+                return cb(new Error('File type mismatched!!! Upload an Image'))
+            }
+            cb(undefined, true)
+
+        }
+
+    })
 
 const userRouter = express.Router();
 
@@ -49,7 +68,8 @@ userRouter.delete('/me', (req, res) => {
 })
 
 //uploading avatar
-userRouter.post('/me/avatar',upload.single('avatar'),(req,res)=>{
+userRouter.post('/me/avatar', upload.single('avatar'), (req, res) => {
+
     res.status(200).send('upload successful')
 
 })
