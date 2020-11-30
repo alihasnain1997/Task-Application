@@ -2,6 +2,7 @@
 const User = require('../../models/user');
 
 
+
 const saveUser = async (req, res) => {
     try {
 
@@ -14,6 +15,17 @@ const saveUser = async (req, res) => {
         res.status(404).json(e.message)
     }
 
+}
+
+const saveImg = async (req, res) => {
+    try {
+
+        const newUser = new User(req.user);
+        await newUser.save()
+        res.status(201).json({ newUser })
+    } catch (e) {
+        res.status(404).json(e.message)
+    }
 }
 
 const getUsers = async (req, res) => {
@@ -123,6 +135,31 @@ const logoutAllUsers = async (req, res) => {
         res.status(500)
     }
 }
+
+const deleteAvatar = async (req, res) => {
+    try {
+        req.user.avatar = undefined
+        await req.user.save();
+        res.status(200).json(req.user)
+    } catch (e) {
+        res.status(400).json(e.message)
+    }
+}
+
+const fetchAvatar = async (req, res) => {
+    try {
+        const _id = req.params.id;
+        const user = await User.findById(_id);
+        if (!user || !user.avatar) {
+            throw new Error("No data found")
+        }
+        res.set('Content-Type', 'image/jpg')
+        res.send(user.avatar);
+
+    } catch (e) {
+        res.status(400).json(e.message)
+    }
+}
 //await bcrypt.compare("userpass", hashpass)
 module.exports = {
     saveUser: saveUser,
@@ -134,5 +171,8 @@ module.exports = {
     getSelfData: getSelfData,
     logoutUser: logoutUser,
     logoutAllUsers: logoutAllUsers,
+    saveImg: saveImg,
+    deleteAvatar: deleteAvatar,
+    fetchAvatar: fetchAvatar,
 
 }

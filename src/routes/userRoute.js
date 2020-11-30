@@ -4,7 +4,7 @@ const User = require('../models/user');
 const multer = require('multer')
 const upload = multer(
     {
-        dest: 'uploads/',
+        // dest: 'uploads/',
         //limits
         limits: {
             //filesize in bytes
@@ -24,7 +24,8 @@ const upload = multer(
 
 const userRouter = express.Router();
 
-const UserFunctions = require('./routeFunctions/userFunctions')
+const UserFunctions = require('./routeFunctions/userFunctions');
+const userFunctions = require('./routeFunctions/userFunctions');
 
 //get all users
 userRouter.get('/', (req, res) => {
@@ -69,9 +70,23 @@ userRouter.delete('/me', (req, res) => {
 
 //uploading avatar
 userRouter.post('/me/avatar', upload.single('avatar'), (req, res) => {
-
-    res.status(200).send('upload successful')
+    req.user.avatar = req.file.buffer;
+    UserFunctions.saveImg(req, res);
+    // res.status(200).send('upload successful')
+}, (error, req, res, next) => {
+    res.status(400).json(error.message)
 
 })
 
+//delete avatar
+userRouter.delete('/me/avatar', (req, res) => {
+
+    userFunctions.deleteAvatar(req, res);
+})
+
+//fetching avatar
+userRouter.get('/:id/avatar', (req, res) => {
+    userFunctions.fetchAvatar(req, res)
+
+})
 module.exports = userRouter;
