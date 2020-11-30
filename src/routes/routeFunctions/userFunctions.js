@@ -153,7 +153,7 @@ const fetchAvatar = async (req, res) => {
         if (!user || !user.avatar) {
             throw new Error("No data found")
         }
-        res.set('Content-Type', 'image/jpg')
+        res.set('Content-Type', 'image/png')
         res.send(user.avatar);
 
     } catch (e) {

@@ -1,4 +1,5 @@
 const express = require('express');
+const sharp = require('sharp')
 const User = require('../models/user');
 //used to support file upload
 const multer = require('multer')
@@ -69,8 +70,10 @@ userRouter.delete('/me', (req, res) => {
 })
 
 //uploading avatar
-userRouter.post('/me/avatar', upload.single('avatar'), (req, res) => {
-    req.user.avatar = req.file.buffer;
+userRouter.post('/me/avatar', upload.single('avatar'),async  (req, res) => {
+    const buffer = await sharp(req.file.buffer).resize({height:250,width:250}).png().toBuffer();
+    //req.user.avatar = req.file.buffer;
+    req.user.avatar = buffer;
     UserFunctions.saveImg(req, res);
     // res.status(200).send('upload successful')
 }, (error, req, res, next) => {

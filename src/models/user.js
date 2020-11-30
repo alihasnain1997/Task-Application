@@ -103,6 +103,7 @@ userSchema.methods.toJSON = function () {
     const userobj = user.toObject();
     delete userobj.password;
     delete userobj.tokens;
+    delete userobj.avatar;
    
     return userobj;
 }
