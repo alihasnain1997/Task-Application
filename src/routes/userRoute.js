@@ -26,7 +26,7 @@ const upload = multer(
 const userRouter = express.Router();
 
 const UserFunctions = require('./routeFunctions/userFunctions');
-const userFunctions = require('./routeFunctions/userFunctions');
+
 
 //get all users
 userRouter.get('/', (req, res) => {
@@ -71,6 +71,7 @@ userRouter.delete('/me', (req, res) => {
 
 //uploading avatar
 userRouter.post('/me/avatar', upload.single('avatar'),async  (req, res) => {
+    //async/await syntax of sharp
     const buffer = await sharp(req.file.buffer).resize({height:250,width:250}).png().toBuffer();
     //req.user.avatar = req.file.buffer;
     req.user.avatar = buffer;

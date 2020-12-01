@@ -1,6 +1,6 @@
 
 const User = require('../../models/user');
-
+const {sendWelcomeEmail,sendGoodBye} = require('../../emails/account')
 
 
 const saveUser = async (req, res) => {
@@ -8,6 +8,7 @@ const saveUser = async (req, res) => {
 
         const newUser = new User(req.body);
         await newUser.save()
+        sendWelcomeEmail(newUser.name,newUser.email)
         const token = await newUser.generateAuthToken()
 
         res.status(201).json({ newUser, token })
@@ -87,6 +88,7 @@ const deleteUser = async (req, res) => {
         //     throw new Error(`Can't find the user to delete`)
         // }
         await req.user.remove();
+        sendGoodBye(req.user.name,req.user.email)
         res.status(201).json(req.user)
 
     } catch (e) {
