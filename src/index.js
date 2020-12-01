@@ -8,7 +8,7 @@ const userRoutes = require('./routes/userRoute')
 const taskRoutes = require('./routes/tasksRoute')
 const authRoutes = require('./routes/authRoute')
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT
 
 app.use(express.json());
 

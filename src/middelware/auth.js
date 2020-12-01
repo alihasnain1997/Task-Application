@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const auth = async (req, res, next) => {
     try {
         const token = req.header('Authorization').replace('Bearer ', '')
-        const decode = jwt.verify(token, 'testCode')
+        const decode = jwt.verify(token, process.env.JWT_SECRET)
         const user = await User.findById({ _id: decode._id });
         if (!user) {
             throw new Error('')

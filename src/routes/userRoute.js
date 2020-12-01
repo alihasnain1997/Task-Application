@@ -85,12 +85,12 @@ userRouter.post('/me/avatar', upload.single('avatar'),async  (req, res) => {
 //delete avatar
 userRouter.delete('/me/avatar', (req, res) => {
 
-    userFunctions.deleteAvatar(req, res);
+    UserFunctions.deleteAvatar(req, res);
 })
 
 //fetching avatar
 userRouter.get('/:id/avatar', (req, res) => {
-    userFunctions.fetchAvatar(req, res)
+    UserFunctions.fetchAvatar(req, res)
 
 })
 module.exports = userRouter;
